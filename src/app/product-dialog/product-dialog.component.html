@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>📦 Produto</h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="data.product.name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descrição</mat-label>
+    <input matInput [(ngModel)]="data.product.description">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Preço</mat-label>
+    <input matInput type="number" [(ngModel)]="data.product.price">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>URL da Imagem</mat-label>
+    <input matInput [(ngModel)]="data.product.imageUrl" placeholder="https://exemplo.com/imagem.jpg">
+  </mat-form-field>
+
+  <!-- Preview da Imagem -->
+  <div class="image-preview" *ngIf="data.product.imageUrl">
+    <p class="preview-label">Preview:</p>
+    <img [src]="data.product.imageUrl" alt="Preview do produto" (error)="onImageError($event)">
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+</div>

@@ -1,33 +1,62 @@
-<mat-toolbar color="primary">
-<span>Admin Dashboard - Produtos</span>
-<span class="spacer"></span>
-<button mat-icon-button (click)="logout()">
-<mat-icon>logout</mat-icon>
-</button>
-</mat-toolbar>
- 
-<div style="padding:20px;">
-<button mat-raised-button color="accent" (click)="addProduct()">
-<mat-icon>add</mat-icon> Adicionar Produto
-</button>
- 
-<div class="card-container">
-<mat-card *ngFor="let product of products" class="product-card">
-<mat-card-header>
-<mat-card-title>{{product.name}}</mat-card-title>
-<mat-card-subtitle>{{product.description}}</mat-card-subtitle>
-</mat-card-header>
-<mat-card-content>
-<p>Preço: ${{product.price}}</p>
-</mat-card-content>
-<mat-card-actions>
-<button mat-mini-fab color="primary" (click)="editProduct(product)">
-<mat-icon>edit</mat-icon>
-</button>
-<button mat-mini-fab color="warn" (click)="deleteProduct(product.id)">
-<mat-icon>delete</mat-icon>
-</button>
-</mat-card-actions>
-</mat-card>
+<div class="header-section">
+  <button mat-icon-button class="back-button" (click)="goBack()" matTooltip="Voltar">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>🛍️ Dashboard de Produtos - Supabase</h2>
 </div>
-</div>
+
+<table mat-table [dataSource]="products" class="mat-elevation-z8 full-width">
+
+  <!-- Imagem -->
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef> Imagem </th>
+    <td mat-cell *matCellDef="let product">
+      <img 
+        [src]="product.imageUrl || 'https://via.placeholder.com/60?text=Sem+Imagem'" 
+        alt="{{product.name}}"
+        class="product-image"
+        (error)="onImageError($event)">
+    </td>
+  </ng-container>
+
+  <!-- Nome -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nome </th>
+    <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+  </ng-container>
+
+  <!-- Descrição -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Descrição </th>
+    <td mat-cell *matCellDef="let product" class="description-cell"> 
+      {{product.description || '-'}} 
+    </td>
+  </ng-container>
+
+  <!-- Preço -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Preço </th>
+    <td mat-cell *matCellDef="let product"> {{product.price | currency:'BRL'}} </td>
+  </ng-container>
+
+  <!-- Ações -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Ações </th>
+    <td mat-cell *matCellDef="let product">
+      <button mat-icon-button color="primary" (click)="openDialog(product)" matTooltip="Editar">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteProduct(product.id!)" matTooltip="Excluir">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<button mat-raised-button color="primary" (click)="openDialog()" class="add-button">
+  <mat-icon>add</mat-icon>
+  Adicionar Produto
+</button>

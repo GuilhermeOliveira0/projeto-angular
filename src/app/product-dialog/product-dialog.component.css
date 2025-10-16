@@ -1,0 +1,188 @@
+/* Container do diálogo */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  width: 100%;
+  padding: 24px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Título do diálogo */
+h1[mat-dialog-title] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 16px 0 !important;
+  padding: 24px 24px 16px 24px !important;
+  display: block;
+  width: 100%;
+}
+
+/* Campos de formulário */
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+::ng-deep .mat-mdc-form-field {
+  font-size: 14px;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+::ng-deep .mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: #e2e8f0;
+  transition: border-color 0.3s ease;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__trailing {
+  border-color: #667eea;
+}
+
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: #667eea !important;
+  border-width: 2px !important;
+}
+
+/* Preview da imagem */
+.image-preview {
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border-radius: 16px;
+  text-align: center;
+  border: 2px dashed #cbd5e0;
+  transition: all 0.3s ease;
+}
+
+.image-preview:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
+}
+
+.preview-label {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: #667eea;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.image-preview img:hover {
+  transform: scale(1.05);
+}
+
+/* Ações do diálogo */
+mat-dialog-actions {
+  margin-top: 24px;
+  padding: 20px 24px 24px 24px !important;
+  gap: 12px;
+  display: flex !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap !important;
+  min-height: 60px;
+  align-items: center;
+}
+
+/* Botões */
+button[mat-stroked-button] {
+  padding: 12px 32px !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  border: 2px solid #e2e8f0 !important;
+  color: #4a5568 !important;
+  transition: all 0.3s ease !important;
+  white-space: nowrap !important;
+  min-width: 100px !important;
+}
+
+button[mat-stroked-button]:hover {
+  border-color: #cbd5e0 !important;
+  background-color: #f7fafc !important;
+  transform: translateY(-2px);
+}
+
+button[mat-raised-button][color="primary"] {
+  padding: 14px 36px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%) !important;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 18px rgba(255, 152, 0, 0.25) !important;
+  transition: all 0.3s ease !important;
+  white-space: nowrap !important;
+  min-width: 120px !important;
+  letter-spacing: 0.5px;
+}
+
+button[mat-raised-button][color="primary"]:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(255, 152, 0, 0.35) !important;
+  filter: brightness(1.08);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  mat-dialog-content {
+    min-width: 100% !important;
+    padding: 16px !important;
+  }
+  
+  h1[mat-dialog-title] {
+    font-size: 22px;
+    padding: 20px 16px 12px 16px !important;
+  }
+  
+  .image-preview {
+    padding: 12px;
+    margin-top: 12px;
+  }
+  
+  .image-preview img {
+    max-height: 150px;
+  }
+  
+  mat-dialog-actions {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 10px;
+    padding: 16px !important;
+    justify-content: center !important;
+  }
+  
+  button[mat-stroked-button],
+  button[mat-raised-button] {
+    flex: 1;
+    min-width: 120px !important;
+  }
+}

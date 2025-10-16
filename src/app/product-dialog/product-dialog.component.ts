@@ -1,53 +1,35 @@
-// src/app/product-dialog/product-dialog.component.ts
-import { Component, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
- 
+import { Product } from '../models/product';
+
 @Component({
   selector: 'app-product-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
-    <h1 mat-dialog-title>{{data.isEdit ? 'Editar Produto' : 'Adicionar Produto'}}</h1>
-    <div mat-dialog-content>
-      <form [formGroup]="form">
-        <mat-form-field style="width:100%">
-          <mat-label>Nome</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
- 
-        <mat-form-field style="width:100%">
-          <mat-label>Descrição</mat-label>
-          <input matInput formControlName="description">
-        </mat-form-field>
- 
-        <mat-form-field style="width:100%">
-          <mat-label>Preço</mat-label>
-          <input matInput type="number" formControlName="price">
-        </mat-form-field>
-      </form>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button (click)="close()">Cancelar</button>
-      <button mat-button color="primary" [disabled]="form.invalid" (click)="save()">Salvar</button>
-    </div>
-  `
+  imports: [CommonModule, FormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  templateUrl: './product-dialog.component.html',
+  styleUrls: ['./product-dialog.component.css']
 })
 export class ProductDialogComponent {
-  private fb = inject(FormBuilder);
-  dialogRef = inject(MatDialogRef<ProductDialogComponent>);
-  data = inject(MAT_DIALOG_DATA);
- 
-  form = this.fb.group({
-    name: [this.data.product?.name || '', Validators.required],
-    description: [this.data.product?.description || '', Validators.required],
-    price: [this.data.product?.price || 0, Validators.required]
-  });
- 
-  close() { this.dialogRef.close(); }
-  save() { this.dialogRef.close(this.form.value); }
+  constructor(
+    public dialogRef: MatDialogRef<ProductDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { product: Product }
+  ) {}
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSave(): void {
+    this.dialogRef.close(this.data.product);
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'https://via.placeholder.com/150?text=Imagem+Indisponível';
+  }
 }
