@@ -69,6 +69,33 @@ return data.user;
 }
 
 
+async signUp(email: string, password: string, name: string) {
+
+const { data, error } = await this.supabase.auth.signUp({
+
+email,
+
+password,
+
+options: {
+
+data: {
+
+name: name
+
+}
+
+}
+
+});
+
+if (error) throw error;
+
+return data;
+
+}
+
+
 async logout() {
 
 const { error } = await this.supabase.auth.signOut();

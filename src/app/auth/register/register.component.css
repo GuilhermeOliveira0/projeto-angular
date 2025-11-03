@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.login-container {
+.register-container {
   background: white;
   padding: 40px;
   border-radius: 12px;
@@ -52,12 +52,12 @@ button {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
 
 button:disabled {
@@ -65,25 +65,21 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.register-link {
+.login-link {
   text-align: center;
   margin-top: 20px;
   color: #666;
   font-size: 14px;
 }
 
-.register-link a {
+.login-link a {
   color: #667eea;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
-.register-link a:hover {
+.login-link a:hover {
   color: #764ba2;
   text-decoration: underline;
 }
