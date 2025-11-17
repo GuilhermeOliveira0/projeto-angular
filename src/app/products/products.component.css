@@ -49,6 +49,30 @@
   color: white !important;
 }
 
+/* Botão carrinho */
+.cart-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  color: white !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.cart-button mat-icon {
+  color: white !important;
+}
+
+.cart-button:hover {
+  transform: translateY(-50%) scale(1.1) !important;
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4) !important;
+}
+
 .back-button:hover {
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;

@@ -6,20 +6,23 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
 import { SupabaseService } from '../services/supabase.service';
+import { CartService } from '../services/cart.service';
 import { Product } from '../models/product';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatTableModule, MatIconModule, MatTooltipModule, MatDialogModule],
+  imports: [CommonModule, MatButtonModule, MatTableModule, MatIconModule, MatTooltipModule, MatDialogModule, MatBadgeModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
   displayedColumns: string[] = ['image', 'name', 'description', 'price', 'actions'];
   supabaseService = inject(SupabaseService);
+  cartService = inject(CartService);
   dialog = inject(MatDialog);
   router = inject(Router);
 
@@ -60,6 +63,14 @@ export class ProductsComponent implements OnInit {
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.src = 'https://via.placeholder.com/60?text=Sem+Imagem';
+  }
+
+  async addToCart(product: Product): Promise<void> {
+    await this.cartService.addToCart(product);
+  }
+
+  goToCart(): void {
+    this.router.navigate(['/cart']);
   }
 
   goBack() {

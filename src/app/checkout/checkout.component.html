@@ -1,0 +1,192 @@
+<div class="checkout-container">
+  <div class="header-section">
+    <button mat-icon-button class="back-button" (click)="goBack()" matTooltip="Voltar ao Carrinho">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>💳 Finalizar Compra</h2>
+  </div>
+
+  <!-- Resumo do Pedido NÃO CONFIRMADO -->
+  <div *ngIf="!showConfirmation" class="checkout-content">
+    
+    <!-- Itens do Pedido -->
+    <div class="order-section">
+      <mat-card class="section-card">
+        <h3>📦 Itens do Pedido</h3>
+        <mat-divider></mat-divider>
+        
+        <div class="order-items">
+          <div *ngFor="let item of cartService.items()" class="order-item">
+            <img 
+              [src]="item.product.imageUrl || 'https://via.placeholder.com/60?text=Produto'" 
+              [alt]="item.product.name"
+              class="item-image">
+            <div class="item-details">
+              <strong>{{ item.product.name }}</strong>
+              <span class="item-qty">Qtd: {{ item.quantity }}</span>
+            </div>
+            <div class="item-price">
+              {{ item.subtotal | currency:'BRL' }}
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Cálculo de Frete -->
+      <mat-card class="section-card">
+        <h3>🚚 Cálculo de Frete</h3>
+        <mat-divider></mat-divider>
+        
+        <div class="shipping-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>CEP</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="cep" 
+              placeholder="12345-678"
+              maxlength="9"
+              (blur)="formatCep()"
+              [class.invalid]="cepInvalid">
+            <mat-icon matSuffix>location_on</mat-icon>
+          </mat-form-field>
+          
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="calculateShipping()"
+            class="calc-button">
+            <mat-icon>calculate</mat-icon>
+            Calcular Frete
+          </button>
+        </div>
+
+        <div *ngIf="shippingCalculated" class="shipping-result">
+          <div *ngIf="cartService.isFreeShipping()" class="free-shipping-message">
+            <mat-icon>celebration</mat-icon>
+            <strong>FRETE GRÁTIS!</strong>
+            <p>Compras acima de R$ 100,00 têm frete grátis! 🎉</p>
+          </div>
+          
+          <div *ngIf="!cartService.isFreeShipping()" class="shipping-value">
+            <span>Valor do Frete:</span>
+            <strong>{{ cartService.shippingCost() | currency:'BRL' }}</strong>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- Resumo de Valores -->
+    <div class="summary-section">
+      <mat-card class="summary-card">
+        <h3>💰 Resumo de Valores</h3>
+        <mat-divider></mat-divider>
+        
+        <div class="summary-row">
+          <span>Subtotal ({{ cartService.totalItems() }} itens):</span>
+          <strong>{{ cartService.subtotal() | currency:'BRL' }}</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Frete:</span>
+          <strong *ngIf="!shippingCalculated" class="pending">A calcular</strong>
+          <strong *ngIf="shippingCalculated && cartService.isFreeShipping()" class="free">GRÁTIS</strong>
+          <strong *ngIf="shippingCalculated && !cartService.isFreeShipping()">
+            {{ cartService.shippingCost() | currency:'BRL' }}
+          </strong>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="summary-row total">
+          <span>Total:</span>
+          <strong class="total-value">{{ cartService.total() | currency:'BRL' }}</strong>
+        </div>
+
+        <div class="action-buttons">
+          <button 
+            mat-stroked-button 
+            color="accent" 
+            (click)="continueShopping()">
+            <mat-icon>shopping_cart</mat-icon>
+            Continuar Comprando
+          </button>
+          
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="finalizePurchase()"
+            [disabled]="!shippingCalculated"
+            class="finalize-button">
+            <mat-icon>done_all</mat-icon>
+            Finalizar
+          </button>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>
+
+  <!-- CONFIRMAÇÃO FINAL -->
+  <div *ngIf="showConfirmation" class="confirmation-section">
+    <mat-card class="confirmation-card">
+      <div class="confirmation-header">
+        <mat-icon class="check-icon">check_circle</mat-icon>
+        <h2>Confirme seu Pedido</h2>
+        <p>Revise os dados antes de finalizar</p>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Resumo dos Itens -->
+      <div class="confirmation-items">
+        <h3>📦 Itens do Pedido</h3>
+        <div *ngFor="let item of cartService.items()" class="confirm-item">
+          <span>{{ item.quantity }}x {{ item.product.name }}</span>
+          <strong>{{ item.subtotal | currency:'BRL' }}</strong>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Valores Finais -->
+      <div class="confirmation-values">
+        <div class="value-row">
+          <span>Subtotal:</span>
+          <strong>{{ cartService.subtotal() | currency:'BRL' }}</strong>
+        </div>
+        <div class="value-row">
+          <span>Frete (CEP: {{ cep }}):</span>
+          <strong *ngIf="cartService.isFreeShipping()" class="free">GRÁTIS</strong>
+          <strong *ngIf="!cartService.isFreeShipping()">
+            {{ cartService.shippingCost() | currency:'BRL' }}
+          </strong>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="value-row total">
+          <span>TOTAL:</span>
+          <strong class="total-value">{{ cartService.total() | currency:'BRL' }}</strong>
+        </div>
+      </div>
+
+      <!-- Botões de Confirmação -->
+      <div class="confirmation-buttons">
+        <button 
+          mat-stroked-button 
+          color="warn" 
+          (click)="cancelPurchase()">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+        
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="confirmPurchase()">
+          <mat-icon>done</mat-icon>
+          Confirmar Compra
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+</div>

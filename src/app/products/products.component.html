@@ -3,6 +3,9 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <h2>🛍️ Dashboard de Produtos - Supabase</h2>
+  <button mat-icon-button class="cart-button" (click)="goToCart()" matTooltip="Ver Carrinho" [matBadge]="cartService.totalItems()" matBadgeColor="warn" [matBadgeHidden]="cartService.totalItems() === 0">
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
 </div>
 
 <table mat-table [dataSource]="products" class="mat-elevation-z8 full-width">
@@ -48,6 +51,9 @@
       </button>
       <button mat-icon-button color="warn" (click)="deleteProduct(product.id!)" matTooltip="Excluir">
         <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="addToCart(product)" matTooltip="Adicionar ao Carrinho">
+        <mat-icon>add_shopping_cart</mat-icon>
       </button>
     </td>
   </ng-container>
